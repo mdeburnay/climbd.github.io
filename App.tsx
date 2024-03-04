@@ -26,17 +26,20 @@ export default function App() {
             style={styles.input}
             placeholder="Distance"
             placeholderTextColor="#FFF"
+            onChangeText={(val) => setDistance(val)}
           />
 
           <TextInput
             style={styles.input}
             placeholder="Incline %"
             placeholderTextColor="#FFF"
+            onChangeText={(val) => setIncline(val)}
           />
           <TextInput
             style={styles.input}
             placeholder="Metres Climbed"
             placeholderTextColor="#FFF"
+            onChangeText={(val) => setMetresClimbed(val)}
           />
         </View>
       </DismissKeyboard>
