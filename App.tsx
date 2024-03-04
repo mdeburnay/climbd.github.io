@@ -9,24 +9,29 @@ import {
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Distance"
-        placeholderTextColor="#FFF"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Incline %"
-        placeholderTextColor="#FFF"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Metres Climbed"
-        placeholderTextColor="#FFF"
-      />
+    <>
+      <DismissKeyboard>
+        <View style={styles.container}>
+          <TextInput
+            style={styles.input}
+            placeholder="Distance"
+            placeholderTextColor="#FFF"
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="Incline %"
+            placeholderTextColor="#FFF"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Metres Climbed"
+            placeholderTextColor="#FFF"
+          />
+        </View>
+      </DismissKeyboard>
       <StatusBar style="auto" />
-    </View>
+    </>
   );
 }
 
