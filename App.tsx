@@ -5,6 +5,7 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
+  Button,
 } from "react-native";
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
           />
         </View>
       </DismissKeyboard>
+      <Button color={"#000"} title="Calculate" onPress={() => {}} />
       <StatusBar style="auto" />
     </>
   );
