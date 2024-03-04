@@ -1,3 +1,4 @@
+// Packages
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
@@ -9,7 +10,14 @@ import {
   Text,
 } from "react-native";
 
+// Hooks
+import { useState } from "react";
+
 export default function App() {
+  const [distance, setDistance] = useState("");
+  const [incline, setIncline] = useState("");
+  const [metresClimbed, setMetresClimbed] = useState("");
+
   return (
     <>
       <DismissKeyboard>
