@@ -1,5 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, View, TextInput } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 
 export default function App() {
   return (
@@ -39,3 +45,9 @@ const styles = StyleSheet.create({
     width: "80%",
   },
 });
+
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
