@@ -4,10 +4,21 @@ import { StyleSheet, Text, View, TextInput } from "react-native";
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Open up App.js to</Text>
-      <TextInput placeholder="Distance" />
-      <TextInput placeholder="Incline %" />
-      <TextInput placeholder="Metres Climbed" />
+      <TextInput
+        style={styles.input}
+        placeholder="Distance"
+        placeholderTextColor="#FFF"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Incline %"
+        placeholderTextColor="#FFF"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Metres Climbed"
+        placeholderTextColor="#FFF"
+      />
       <StatusBar style="auto" />
     </View>
   );
@@ -20,7 +31,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  text: {
+  input: {
+    fontSize: 20,
     color: "#FFF",
+    borderBottomColor: "#FFF",
+    borderBottomWidth: 1,
+    width: "80%",
   },
 });
