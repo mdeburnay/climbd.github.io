@@ -5,14 +5,15 @@ import {
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
-  Button,
+  Pressable,
+  Text,
 } from "react-native";
 
 export default function App() {
   return (
     <>
       <DismissKeyboard>
-        <View style={styles.container}>
+        <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             placeholder="Distance"
@@ -31,14 +32,14 @@ export default function App() {
           />
         </View>
       </DismissKeyboard>
-      <Button color={"#000"} title="Calculate" onPress={() => {}} />
+      <Button title="Calculate" onPress={() => console.log("Calculate")} />
       <StatusBar style="auto" />
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  inputContainer: {
     flex: 1,
     backgroundColor: "#000",
     alignItems: "center",
@@ -51,6 +52,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: "80%",
   },
+  button: {
+    backgroundColor: "#000",
+    padding: 10,
+  },
+  text: {
+    fontSize: 20,
+    color: "#FFF",
+  },
 });
 
 const DismissKeyboard = ({ children }) => (
@@ -58,3 +67,11 @@ const DismissKeyboard = ({ children }) => (
     {children}
   </TouchableWithoutFeedback>
 );
+
+const Button = ({ onPress, title }) => {
+  return (
+    <Pressable style={styles.button} onPress={onPress}>
+      <Text style={[styles.text, { textAlign: "center" }]}>{title}</Text>
+    </Pressable>
+  );
+};
