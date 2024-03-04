@@ -45,9 +45,7 @@ export default function App() {
           />
         </View>
       </DismissKeyboard>
-      <Text style={{ backgroundColor: "#000", color: "#FFF" }}>
-        {metresClimbed}
-      </Text>
+      <Text style={styles.metresNumber}>{metresClimbed}m</Text>
       <Button
         title="Calculate"
         onPress={() => CalculateMetresClimbed(+distance, +incline)}
@@ -77,6 +75,12 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     color: "#FFF",
+  },
+  metresNumber: {
+    fontSize: 40,
+    backgroundColor: "#000",
+    color: "#FFF",
+    textAlign: "center",
   },
 });
 
