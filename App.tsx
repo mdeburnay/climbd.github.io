@@ -8,6 +8,10 @@ import {
   TouchableWithoutFeedback,
   Pressable,
   Text,
+  KeyboardAvoidingView,
+  Dimensions,
+  Platform,
+  ScrollView,
 } from "react-native";
 
 // Hooks
@@ -17,6 +21,8 @@ export default function App() {
   const [distance, setDistance] = useState<string>("");
   const [incline, setIncline] = useState<string>("");
   const [metresClimbed, setMetresClimbed] = useState<number>(0);
+
+  const calculatedHeight = Dimensions.get("window").height;
 
   const CalculateMetresClimbed = (
     distanceKm: number,
@@ -28,47 +34,60 @@ export default function App() {
   };
 
   return (
-    <>
-      <DismissKeyboard>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Distance (km)"
-            placeholderTextColor="#7e7e7e"
-            onChangeText={(val) => setDistance(val)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Incline (%)"
-            placeholderTextColor="#7e7e7e"
-            onChangeText={(val) => setIncline(val)}
-          />
-        </View>
-      </DismissKeyboard>
-      <Text style={styles.metresNumber}>{metresClimbed}m</Text>
-      <Button
-        title="Calculate"
-        onPress={() => CalculateMetresClimbed(+distance, +incline)}
-      />
-      <StatusBar style="auto" />
-    </>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View
+        style={[
+          styles.container,
+          {
+            paddingTop: calculatedHeight / 2.5,
+            height: calculatedHeight,
+          },
+        ]}
+      >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "android" ? "position" : "padding"}
+          keyboardVerticalOffset={Platform.OS === "android" ? -550 : 0}
+        >
+          <ScrollView>
+            <TextInput
+              style={styles.input}
+              placeholder="Distance (km)"
+              placeholderTextColor="#7e7e7e"
+              onChangeText={(val) => setDistance(val)}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Incline (%)"
+              placeholderTextColor="#7e7e7e"
+              onChangeText={(val) => setIncline(val)}
+            />
+            <Text style={styles.metresNumber}>{metresClimbed}m</Text>
+            <Button
+              title="Calculate"
+              onPress={() => CalculateMetresClimbed(+distance, +incline)}
+            />
+            <StatusBar style="auto" />
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
-  inputContainer: {
+  container: {
     flex: 1,
+    height: "100%",
+    width: "100%",
     backgroundColor: "#000",
-    alignItems: "center",
-    justifyContent: "center",
   },
   input: {
     fontSize: 20,
     color: "#FFF",
-    width: "80%",
+    height: 50,
+    width: "100%",
   },
   button: {
-    backgroundColor: "#000",
     padding: 10,
   },
   text: {
@@ -77,17 +96,10 @@ const styles = StyleSheet.create({
   },
   metresNumber: {
     fontSize: 40,
-    backgroundColor: "#000",
     color: "#FFF",
     textAlign: "center",
   },
 });
-
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
 
 const Button = ({ onPress, title }) => {
   return (
