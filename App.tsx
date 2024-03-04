@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 20,
     color: "#FFF",
-
     width: "80%",
   },
   button: {
