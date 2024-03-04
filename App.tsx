@@ -93,7 +93,14 @@ const DismissKeyboard = ({ children }) => (
 const Button = ({ onPress, title }) => {
   return (
     <Pressable style={styles.button} onPress={onPress}>
-      <Text style={[styles.text, { textAlign: "center" }]}>{title}</Text>
+      <Text
+        style={[
+          styles.text,
+          { textAlign: "center", textTransform: "uppercase" },
+        ]}
+      >
+        {title}
+      </Text>
     </Pressable>
   );
 };
