@@ -14,9 +14,18 @@ import {
 import { useState } from "react";
 
 export default function App() {
-  const [distance, setDistance] = useState("");
-  const [incline, setIncline] = useState("");
-  const [metresClimbed, setMetresClimbed] = useState("");
+  const [distance, setDistance] = useState<string>("");
+  const [incline, setIncline] = useState<string>("");
+  const [metresClimbed, setMetresClimbed] = useState<number>(0);
+
+  const CalculateMetresClimbed = (
+    distanceKm: number,
+    inclinePercentage: number
+  ) => {
+    const distanceMeters = distanceKm * 1000;
+    const metresClimbed = (inclinePercentage / 100) * distanceMeters;
+    setMetresClimbed(metresClimbed);
+  };
 
   return (
     <>
@@ -24,26 +33,25 @@ export default function App() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Distance"
-            placeholderTextColor="#FFF"
+            placeholder="Distance (km)"
+            placeholderTextColor="#7e7e7e"
             onChangeText={(val) => setDistance(val)}
           />
-
           <TextInput
             style={styles.input}
-            placeholder="Incline %"
-            placeholderTextColor="#FFF"
+            placeholder="Incline (%)"
+            placeholderTextColor="#7e7e7e"
             onChangeText={(val) => setIncline(val)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Metres Climbed"
-            placeholderTextColor="#FFF"
-            onChangeText={(val) => setMetresClimbed(val)}
           />
         </View>
       </DismissKeyboard>
-      <Button title="Calculate" onPress={() => console.log("Calculate")} />
+      <Text style={{ backgroundColor: "#000", color: "#FFF" }}>
+        {metresClimbed}
+      </Text>
+      <Button
+        title="Calculate"
+        onPress={() => CalculateMetresClimbed(+distance, +incline)}
+      />
       <StatusBar style="auto" />
     </>
   );
@@ -59,8 +67,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 20,
     color: "#FFF",
-    borderBottomColor: "#FFF",
-    borderBottomWidth: 1,
+
     width: "80%",
   },
   button: {
