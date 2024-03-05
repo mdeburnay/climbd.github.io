@@ -40,9 +40,11 @@ export default function App() {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback
+      style={{ backgroundColor: "#000" }}
+      onPress={() => Keyboard.dismiss()}
+    >
       <KeyboardAvoidingView
-        behavior={Platform.OS === "android" ? "position" : "padding"}
         keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
       >
         <ScrollView
@@ -81,7 +83,7 @@ export default function App() {
             onPress={() => calculateMetresClimbed(+distance, +incline)}
           />
           <Button title="Reset" onPress={() => reset()} />
-          <StatusBar style="auto" />
+          <StatusBar style="light" />
         </ScrollView>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
