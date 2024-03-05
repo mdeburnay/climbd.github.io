@@ -34,7 +34,10 @@ export default function App() {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback
+      style={{ paddingHorizontal: 30 }}
+      onPress={() => Keyboard.dismiss()}
+    >
       <View
         style={[
           styles.container,
@@ -48,7 +51,7 @@ export default function App() {
           behavior={Platform.OS === "android" ? "position" : "padding"}
           keyboardVerticalOffset={Platform.OS === "android" ? -550 : 0}
         >
-          <ScrollView>
+          <ScrollView style={{ paddingHorizontal: 30 }}>
             <TextInput
               style={styles.input}
               placeholder="Distance (km)"
@@ -56,7 +59,7 @@ export default function App() {
               onChangeText={(val) => setDistance(val)}
             />
             <TextInput
-              style={styles.input}
+              style={[styles.input]}
               placeholder="Incline (%)"
               placeholderTextColor="#7e7e7e"
               onChangeText={(val) => setIncline(val)}
@@ -76,16 +79,12 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    height: "100%",
-    width: "100%",
     backgroundColor: "#000",
   },
   input: {
     fontSize: 20,
     color: "#FFF",
     height: 50,
-    width: "100%",
   },
   button: {
     padding: 10,
