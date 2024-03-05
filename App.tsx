@@ -34,45 +34,47 @@ export default function App() {
   };
 
   return (
-    <TouchableWithoutFeedback
-      style={{ paddingHorizontal: 30 }}
-      onPress={() => Keyboard.dismiss()}
-    >
-      <View
-        style={[
-          styles.container,
-          {
-            paddingTop: calculatedHeight / 2.5,
-            height: calculatedHeight,
-          },
-        ]}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "android" ? "position" : "padding"}
+        keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
       >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "android" ? "position" : "padding"}
-          keyboardVerticalOffset={Platform.OS === "android" ? -550 : 0}
+        <ScrollView
+          contentContainerStyle={[
+            styles.container,
+            {
+              paddingTop: calculatedHeight / 2.5,
+              height: calculatedHeight,
+            },
+          ]}
         >
-          <ScrollView style={{ paddingHorizontal: 30 }}>
-            <TextInput
-              style={styles.input}
-              placeholder="Distance (km)"
-              placeholderTextColor="#7e7e7e"
-              onChangeText={(val) => setDistance(val)}
-            />
-            <TextInput
-              style={[styles.input]}
-              placeholder="Incline (%)"
-              placeholderTextColor="#7e7e7e"
-              onChangeText={(val) => setIncline(val)}
-            />
-            <Text style={styles.metresNumber}>{metresClimbed}m</Text>
-            <Button
-              title="Calculate"
-              onPress={() => CalculateMetresClimbed(+distance, +incline)}
-            />
-            <StatusBar style="auto" />
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Distance (km)"
+            placeholderTextColor="#7e7e7e"
+            onChangeText={(val) => setDistance(val)}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Incline (%)"
+            placeholderTextColor="#7e7e7e"
+            onChangeText={(val) => setIncline(val)}
+          />
+          <Text
+            style={[
+              styles.metresNumber,
+              { paddingTop: calculatedHeight / 4.5 },
+            ]}
+          >
+            {metresClimbed}m
+          </Text>
+          <Button
+            title="Calculate"
+            onPress={() => CalculateMetresClimbed(+distance, +incline)}
+          />
+          <StatusBar style="auto" />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }
@@ -80,9 +82,10 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#000",
+    paddingHorizontal: 30,
   },
   input: {
-    fontSize: 20,
+    fontSize: 28,
     color: "#FFF",
     height: 50,
   },
