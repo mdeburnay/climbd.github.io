@@ -24,13 +24,19 @@ export default function App() {
 
   const calculatedHeight = Dimensions.get("window").height;
 
-  const CalculateMetresClimbed = (
+  const calculateMetresClimbed = (
     distanceKm: number,
     inclinePercentage: number
   ) => {
     const distanceMeters = distanceKm * 1000;
     const metresClimbed = (inclinePercentage / 100) * distanceMeters;
     setMetresClimbed(metresClimbed);
+  };
+
+  const reset = () => {
+    setDistance("");
+    setIncline("");
+    setMetresClimbed(0);
   };
 
   return (
@@ -53,12 +59,14 @@ export default function App() {
             placeholder="Distance (km)"
             placeholderTextColor="#7e7e7e"
             onChangeText={(val) => setDistance(val)}
+            value={distance}
           />
           <TextInput
             style={styles.input}
             placeholder="Incline (%)"
             placeholderTextColor="#7e7e7e"
             onChangeText={(val) => setIncline(val)}
+            value={incline}
           />
           <Text
             style={[
@@ -70,8 +78,9 @@ export default function App() {
           </Text>
           <Button
             title="Calculate"
-            onPress={() => CalculateMetresClimbed(+distance, +incline)}
+            onPress={() => calculateMetresClimbed(+distance, +incline)}
           />
+          <Button title="Reset" onPress={() => reset()} />
           <StatusBar style="auto" />
         </ScrollView>
       </KeyboardAvoidingView>
