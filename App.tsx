@@ -2,7 +2,6 @@
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
-  View,
   TextInput,
   Keyboard,
   TouchableWithoutFeedback,
@@ -13,6 +12,7 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // Hooks
 import { useState } from "react";
@@ -40,53 +40,55 @@ export default function App() {
   };
 
   return (
-    <TouchableWithoutFeedback
-      style={{ backgroundColor: "#000" }}
-      onPress={() => Keyboard.dismiss()}
-    >
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
+    <SafeAreaView style={{ backgroundColor: "#000" }}>
+      <TouchableWithoutFeedback
+        style={{ backgroundColor: "#000" }}
+        onPress={() => Keyboard.dismiss()}
       >
-        <ScrollView
-          contentContainerStyle={[
-            styles.container,
-            {
-              paddingTop: calculatedHeight / 2.5,
-              height: calculatedHeight,
-            },
-          ]}
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
         >
-          <TextInput
-            style={styles.input}
-            placeholder="Distance (km)"
-            placeholderTextColor="#7e7e7e"
-            onChangeText={(val) => setDistance(val)}
-            value={distance}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Incline (%)"
-            placeholderTextColor="#7e7e7e"
-            onChangeText={(val) => setIncline(val)}
-            value={incline}
-          />
-          <Text
-            style={[
-              styles.metresNumber,
-              { paddingTop: calculatedHeight / 4.5 },
+          <ScrollView
+            contentContainerStyle={[
+              styles.container,
+              {
+                paddingTop: calculatedHeight / 2.5,
+                height: calculatedHeight,
+              },
             ]}
           >
-            {metresClimbed}m
-          </Text>
-          <Button
-            title="Calculate"
-            onPress={() => calculateMetresClimbed(+distance, +incline)}
-          />
-          <Button title="Reset" onPress={() => reset()} />
-          <StatusBar style="light" />
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+            <TextInput
+              style={styles.input}
+              placeholder="Distance (km)"
+              placeholderTextColor="#7e7e7e"
+              onChangeText={(val) => setDistance(val)}
+              value={distance}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Incline (%)"
+              placeholderTextColor="#7e7e7e"
+              onChangeText={(val) => setIncline(val)}
+              value={incline}
+            />
+            <Text
+              style={[
+                styles.metresNumber,
+                { paddingTop: calculatedHeight / 4.5 },
+              ]}
+            >
+              {metresClimbed}m
+            </Text>
+            <Button
+              title="Calculate"
+              onPress={() => calculateMetresClimbed(+distance, +incline)}
+            />
+            <Button title="Reset" onPress={() => reset()} />
+            <StatusBar style="light" />
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 }
 
