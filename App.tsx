@@ -1,4 +1,5 @@
 // Packages
+import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
@@ -12,7 +13,6 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 // Hooks
 import { useState } from "react";
