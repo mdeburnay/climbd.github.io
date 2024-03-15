@@ -14,6 +14,7 @@ import {
   ScrollView,
   View,
 } from "react-native";
+import { format } from "date-fns";
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -23,7 +24,9 @@ export default function App() {
   const [incline, setIncline] = useState<string>("");
   const [elevation, setElevation] = useState<string>("");
   const [duration, setDuration] = useState<string>("");
-  const [date, setDate] = useState<string>("");
+  const [date, setDate] = useState<string>(
+    format(new Date().getTime(), "dd/MM/yyyy")
+  );
   const [time, setTime] = useState<string>("");
   const [title, setTitle] = useState<string>("");
 
