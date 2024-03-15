@@ -16,7 +16,7 @@ import {
 } from "react-native";
 
 // Hooks
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function App() {
   const [distance, setDistance] = useState<string>("");
@@ -26,6 +26,14 @@ export default function App() {
   const [date, setDate] = useState<string>("");
   const [time, setTime] = useState<string>("");
   const [title, setTitle] = useState<string>("");
+
+  // Calculate metres climbed when distance or incline changes
+  useEffect(() => {
+    if (distance && incline) {
+      const elevationGain = Number(distance) * Number(incline) * 10; // Convert km and % to meters
+      setElevation(elevationGain.toString());
+    }
+  }, [distance, incline]);
 
   const calculatedHeight = Dimensions.get("window").height;
 
