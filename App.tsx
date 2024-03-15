@@ -42,6 +42,10 @@ export default function App() {
     setDistance("");
     setIncline("");
     setElevation("");
+    setDuration("");
+    setDate("");
+    setTime("");
+    setTitle("");
   };
 
   return (
