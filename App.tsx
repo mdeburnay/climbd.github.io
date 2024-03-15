@@ -29,15 +29,6 @@ export default function App() {
 
   const calculatedHeight = Dimensions.get("window").height;
 
-  const calculateElevation = (
-    distanceKm: number,
-    inclinePercentage: number
-  ) => {
-    const distanceMeters = distanceKm * 1000;
-    const elevation = (inclinePercentage / 100) * distanceMeters;
-    setElevation(elevation.toString());
-  };
-
   const reset = () => {
     setDistance("");
     setIncline("");
@@ -119,7 +110,7 @@ export default function App() {
             </View>
             <Button
               title="Calculate"
-              onPress={() => calculateElevation(+distance, +incline)}
+              onPress={() => console.log("Calculate button pressed")}
             />
             <Button title="Reset" onPress={() => reset()} />
             <StatusBar style="light" />
