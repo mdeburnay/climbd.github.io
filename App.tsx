@@ -48,7 +48,7 @@ export default function App() {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#000" }}>
+    <SafeAreaView style={{ backgroundColor: "#000", flex: 1 }}>
       <TouchableWithoutFeedback
         style={{ backgroundColor: "#000" }}
         onPress={() => Keyboard.dismiss()}
@@ -56,15 +56,8 @@ export default function App() {
         <KeyboardAvoidingView
           keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
         >
-          <ScrollView
-            contentContainerStyle={[
-              styles.container,
-              {
-                paddingTop: calculatedHeight / 2.5,
-                height: calculatedHeight,
-              },
-            ]}
-          >
+          <ScrollView contentContainerStyle={styles.container}>
+            <Text style={styles.title}>Climbed</Text>
             <View>
               <TextInput
                 style={styles.input}
@@ -142,14 +135,14 @@ const styles = StyleSheet.create({
   button: {
     padding: 10,
   },
+  title: {
+    fontSize: 34,
+    color: "#FFF",
+    textAlign: "center",
+  },
   text: {
     fontSize: 20,
     color: "#FFF",
-  },
-  metresNumber: {
-    fontSize: 40,
-    color: "#FFF",
-    textAlign: "center",
   },
 });
 
