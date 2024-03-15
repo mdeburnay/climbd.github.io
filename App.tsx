@@ -26,7 +26,6 @@ export default function App() {
   const [date, setDate] = useState<string>("");
   const [time, setTime] = useState<string>("");
   const [title, setTitle] = useState<string>("");
-  const [pace, setPace] = useState<string>("");
 
   const calculatedHeight = Dimensions.get("window").height;
 
@@ -79,13 +78,6 @@ export default function App() {
                 placeholderTextColor="#7e7e7e"
                 onChangeText={(val) => setDuration(val)}
                 value={duration}
-              />
-              <TextInput
-                style={styles.input}
-                placeholder="Pace (mm/ss)"
-                placeholderTextColor="#7e7e7e"
-                onChangeText={(val) => setPace(val)}
-                value={pace}
               />
               <TextInput
                 style={styles.input}
