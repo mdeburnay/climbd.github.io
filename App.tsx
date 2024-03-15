@@ -86,7 +86,7 @@ export default function App() {
                 placeholder="Duration (hh/mm/ss)"
                 placeholderTextColor="#7e7e7e"
                 onChangeText={(val) => setDuration(val)}
-                value={distance}
+                value={duration}
               />
               <TextInput
                 style={styles.input}
@@ -114,7 +114,7 @@ export default function App() {
                 placeholder="Elevation (m)"
                 placeholderTextColor="#7e7e7e"
                 onChangeText={(val) => setElevation(val)}
-                value={incline}
+                value={elevation}
               />
             </View>
             <Button
