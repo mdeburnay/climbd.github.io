@@ -56,9 +56,9 @@ export default function App() {
         <KeyboardAvoidingView
           keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
         >
+          <Text style={styles.title}>Climbed</Text>
           <ScrollView contentContainerStyle={styles.container}>
-            <Text style={styles.title}>Climbed</Text>
-            <View>
+            <View style={styles.inputContainer}>
               <TextInput
                 style={styles.input}
                 placeholder="Title (e.g. Hill Run)"
@@ -127,6 +127,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
     paddingHorizontal: 30,
   },
+  inputContainer: {
+    paddingBottom: 160,
+  },
   input: {
     fontSize: 28,
     color: "#FFF",
@@ -139,6 +142,7 @@ const styles = StyleSheet.create({
     fontSize: 34,
     color: "#FFF",
     textAlign: "center",
+    paddingBottom: 120,
   },
   text: {
     fontSize: 20,
