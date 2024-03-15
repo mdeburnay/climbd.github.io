@@ -20,23 +20,23 @@ import { useState } from "react";
 export default function App() {
   const [distance, setDistance] = useState<string>("");
   const [incline, setIncline] = useState<string>("");
-  const [metresClimbed, setMetresClimbed] = useState<number>(0);
+  const [elevation, setElevation] = useState<string>("");
 
   const calculatedHeight = Dimensions.get("window").height;
 
-  const calculateMetresClimbed = (
+  const calculateElevation = (
     distanceKm: number,
     inclinePercentage: number
   ) => {
     const distanceMeters = distanceKm * 1000;
-    const metresClimbed = (inclinePercentage / 100) * distanceMeters;
-    setMetresClimbed(metresClimbed);
+    const elevation = (inclinePercentage / 100) * distanceMeters;
+    setElevation(elevation.toString());
   };
 
   const reset = () => {
     setDistance("");
     setIncline("");
-    setMetresClimbed(0);
+    setElevation("");
   };
 
   return (
@@ -71,17 +71,24 @@ export default function App() {
               onChangeText={(val) => setIncline(val)}
               value={incline}
             />
+            <TextInput
+              style={styles.input}
+              placeholder="Elevation (m)"
+              placeholderTextColor="#7e7e7e"
+              onChangeText={(val) => setElevation(val)}
+              value={incline}
+            />
             <Text
               style={[
                 styles.metresNumber,
                 { paddingTop: calculatedHeight / 4.5 },
               ]}
             >
-              {metresClimbed}m
+              {elevation}m
             </Text>
             <Button
               title="Calculate"
-              onPress={() => calculateMetresClimbed(+distance, +incline)}
+              onPress={() => calculateElevation(+distance, +incline)}
             />
             <Button title="Reset" onPress={() => reset()} />
             <StatusBar style="light" />
