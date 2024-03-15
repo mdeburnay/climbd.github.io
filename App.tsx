@@ -12,6 +12,7 @@ import {
   Dimensions,
   Platform,
   ScrollView,
+  View,
 } from "react-native";
 
 // Hooks
@@ -21,6 +22,10 @@ export default function App() {
   const [distance, setDistance] = useState<string>("");
   const [incline, setIncline] = useState<string>("");
   const [elevation, setElevation] = useState<string>("");
+  const [duration, setDuration] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [time, setTime] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
 
   const calculatedHeight = Dimensions.get("window").height;
 
@@ -57,35 +62,57 @@ export default function App() {
               },
             ]}
           >
-            <TextInput
-              style={styles.input}
-              placeholder="Distance (km)"
-              placeholderTextColor="#7e7e7e"
-              onChangeText={(val) => setDistance(val)}
-              value={distance}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Incline (%)"
-              placeholderTextColor="#7e7e7e"
-              onChangeText={(val) => setIncline(val)}
-              value={incline}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Elevation (m)"
-              placeholderTextColor="#7e7e7e"
-              onChangeText={(val) => setElevation(val)}
-              value={incline}
-            />
-            <Text
-              style={[
-                styles.metresNumber,
-                { paddingTop: calculatedHeight / 4.5 },
-              ]}
-            >
-              {elevation}m
-            </Text>
+            <View>
+              <TextInput
+                style={styles.input}
+                placeholder="Title (e.g. Hill Run)"
+                placeholderTextColor="#7e7e7e"
+                onChangeText={(val) => setTitle(val)}
+                value={title}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Distance (km)"
+                placeholderTextColor="#7e7e7e"
+                onChangeText={(val) => setDistance(val)}
+                value={distance}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Duration (hh/mm/ss)"
+                placeholderTextColor="#7e7e7e"
+                onChangeText={(val) => setDuration(val)}
+                value={distance}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Date (dd/mm/yyyy)"
+                placeholderTextColor="#7e7e7e"
+                onChangeText={(val) => setDate(val)}
+                value={date}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Time (hh/mm)/AM/PM"
+                placeholderTextColor="#7e7e7e"
+                onChangeText={(val) => setTime(val)}
+                value={time}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Incline (%)"
+                placeholderTextColor="#7e7e7e"
+                onChangeText={(val) => setIncline(val)}
+                value={incline}
+              />
+              <TextInput
+                style={styles.input}
+                placeholder="Elevation (m)"
+                placeholderTextColor="#7e7e7e"
+                onChangeText={(val) => setElevation(val)}
+                value={incline}
+              />
+            </View>
             <Button
               title="Calculate"
               onPress={() => calculateElevation(+distance, +incline)}
