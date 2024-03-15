@@ -117,8 +117,8 @@ export default function App() {
               />
             </View>
             <Button
-              title="Calculate"
-              onPress={() => console.log("Calculate button pressed")}
+              title="Upload Your Run"
+              onPress={() => console.log("Upload Your Run button pressed")}
             />
             <Button title="Reset" onPress={() => reset()} />
             <StatusBar style="light" />
