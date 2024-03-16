@@ -19,14 +19,14 @@ import {
 import { useEffect, useState } from "react";
 
 // Constants
-import { CURRENT_TIME } from "./constants";
+import { CURRENT_DATE } from "./constants";
 
 export default function App() {
   const [distance, setDistance] = useState<string>("");
   const [incline, setIncline] = useState<string>("");
   const [elevation, setElevation] = useState<string>("");
   const [duration, setDuration] = useState<string>("");
-  const [date, setDate] = useState<string>(CURRENT_TIME);
+  const [date, setDate] = useState<string>(CURRENT_DATE);
   const [time, setTime] = useState<string>("");
   const [title, setTitle] = useState<string>("");
 
