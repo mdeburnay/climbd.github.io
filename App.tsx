@@ -14,19 +14,19 @@ import {
   ScrollView,
   View,
 } from "react-native";
-import { format } from "date-fns";
 
 // Hooks
 import { useEffect, useState } from "react";
+
+// Constants
+import { CURRENT_TIME } from "./constants";
 
 export default function App() {
   const [distance, setDistance] = useState<string>("");
   const [incline, setIncline] = useState<string>("");
   const [elevation, setElevation] = useState<string>("");
   const [duration, setDuration] = useState<string>("");
-  const [date, setDate] = useState<string>(
-    format(new Date().getTime(), "dd/MM/yyyy")
-  );
+  const [date, setDate] = useState<string>(CURRENT_TIME);
   const [time, setTime] = useState<string>("");
   const [title, setTitle] = useState<string>("");
 
