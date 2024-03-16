@@ -19,7 +19,7 @@ import {
 import { useEffect, useState } from "react";
 
 // Constants
-import { CURRENT_DATE } from "./constants";
+import { CURRENT_DATE, CURRENT_TIME } from "./constants";
 
 export default function App() {
   const [distance, setDistance] = useState<string>("");
@@ -27,7 +27,7 @@ export default function App() {
   const [elevation, setElevation] = useState<string>("");
   const [duration, setDuration] = useState<string>("");
   const [date, setDate] = useState<string>(CURRENT_DATE);
-  const [time, setTime] = useState<string>("");
+  const [time, setTime] = useState<string>(CURRENT_TIME);
   const [title, setTitle] = useState<string>("");
 
   // Calculate metres climbed when distance or incline changes
@@ -38,15 +38,13 @@ export default function App() {
     }
   }, [distance, incline]);
 
-  const calculatedHeight = Dimensions.get("window").height;
-
   const reset = () => {
     setDistance("");
     setIncline("");
     setElevation("");
     setDuration("");
-    setDate("");
-    setTime("");
+    setDate(CURRENT_DATE);
+    setTime(CURRENT_TIME);
     setTitle("");
   };
 
