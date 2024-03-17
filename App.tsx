@@ -3,17 +3,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
-  TextInput,
   Keyboard,
   TouchableWithoutFeedback,
   Pressable,
   Text,
   KeyboardAvoidingView,
-  Dimensions,
   Platform,
   ScrollView,
   View,
 } from "react-native";
+
+// Components
+import { Input } from "./components/Input";
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -50,64 +51,47 @@ export default function App() {
 
   return (
     <SafeAreaView style={{ backgroundColor: "#000", flex: 1 }}>
-      <TouchableWithoutFeedback
-        style={{ backgroundColor: "#000" }}
-        onPress={() => Keyboard.dismiss()}
-      >
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <KeyboardAvoidingView
           keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
         >
-          <Text style={styles.title}>Climbed</Text>
+          <Text style={styles.title}>Climbd</Text>
           <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                placeholder="Title (e.g. Hill Run)"
-                placeholderTextColor="#7e7e7e"
-                onChangeText={(val) => setTitle(val)}
+              <Input
+                placeholder="Title (e.g. My Morning Run)"
                 value={title}
+                onChange={setTitle}
               />
-              <TextInput
-                style={styles.input}
+              <Input
                 placeholder="Distance (km)"
-                placeholderTextColor="#7e7e7e"
-                onChangeText={(val) => setDistance(val)}
                 value={distance}
+                onChange={setDistance}
               />
-              <TextInput
-                style={styles.input}
-                placeholder="Duration (hh/mm/ss)"
-                placeholderTextColor="#7e7e7e"
-                onChangeText={(val) => setDuration(val)}
+              <Input
+                placeholder="Duration (hh:mm:ss)"
                 value={duration}
+                onChange={setDuration}
               />
-              <TextInput
-                style={styles.input}
+              <Input
                 placeholder="Date (dd/mm/yyyy)"
-                placeholderTextColor="#7e7e7e"
-                onChangeText={(val) => setDate(val)}
                 value={date}
+                onChange={setDate}
               />
-              <TextInput
-                style={styles.input}
-                placeholder="Time (hh/mm)/AM/PM"
-                placeholderTextColor="#7e7e7e"
-                onChangeText={(val) => setTime(val)}
+              <Input
+                placeholder="Time (hh:mm)"
                 value={time}
+                onChange={setTime}
               />
-              <TextInput
-                style={styles.input}
+              <Input
                 placeholder="Incline (%)"
-                placeholderTextColor="#7e7e7e"
-                onChangeText={(val) => setIncline(val)}
                 value={incline}
+                onChange={setIncline}
               />
-              <TextInput
-                style={styles.input}
+              <Input
                 placeholder="Elevation (m)"
-                placeholderTextColor="#7e7e7e"
-                onChangeText={(val) => setElevation(val)}
                 value={elevation}
+                onChange={setElevation}
               />
             </View>
             <Button
@@ -125,16 +109,10 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#000",
     paddingHorizontal: 30,
   },
   inputContainer: {
-    paddingBottom: 160,
-  },
-  input: {
-    fontSize: 28,
-    color: "#FFF",
-    height: 50,
+    paddingBottom: 140,
   },
   button: {
     padding: 10,
