@@ -94,10 +94,7 @@ export default function App() {
                 onChange={setElevation}
               />
             </View>
-            <Button
-              title="Upload Your Run"
-              onPress={() => console.log("Upload Your Run button pressed")}
-            />
+            <Button title="Upload" onPress={() => console.log("Upload")} />
             <Button title="Reset" onPress={() => reset()} />
             <StatusBar style="light" />
           </ScrollView>
