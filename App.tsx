@@ -56,7 +56,10 @@ export default function App() {
           keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
         >
           <Text style={styles.title}>Climbd</Text>
-          <ScrollView contentContainerStyle={styles.container}>
+          <ScrollView
+            contentContainerStyle={styles.container}
+            scrollEnabled={false}
+          >
             <View style={styles.inputContainer}>
               <Input
                 placeholder="Title (e.g. My Morning Run)"
