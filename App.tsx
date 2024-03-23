@@ -31,6 +31,10 @@ export default function App() {
   const [time, setTime] = useState<string>(CURRENT_TIME);
   const [title, setTitle] = useState<string>("");
 
+  const ACCESS_TOKEN = process.env.EXPO_PUBLIC_ACCESS_TOKEN;
+  const CLIENT_SECRET = process.env.EXPO_PUBLIC_CLIENT_SECRET;
+  const REFRESH_TOKEN = process.env.EXPO_PUBLIC_REFRESH_TOKEN;
+
   // Calculate metres climbed when distance or incline changes
   useEffect(() => {
     if (distance && incline) {
@@ -47,6 +51,13 @@ export default function App() {
     setDate(CURRENT_DATE);
     setTime(CURRENT_TIME);
     setTitle("");
+  };
+
+  const uploadRunToStrava = () => {
+    // Fetch access token
+    // Fetch athlete details
+    // Fetch activity details
+    // Upload activity
   };
 
   return (
