@@ -66,7 +66,12 @@ export default function App() {
         <KeyboardAvoidingView
           keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
         >
-          <Text style={styles.title}>Climbd</Text>
+          <View style={styles.titleContainer}>
+            <View style={{ flex: 1 }} />
+            <Text style={[styles.title, { flex: 1 }]}>Climbd</Text>
+            <Text style={[styles.login, { flex: 1 }]}>Login</Text>
+          </View>
+
           <ScrollView
             contentContainerStyle={styles.container}
             scrollEnabled={false}
@@ -128,11 +133,21 @@ const styles = StyleSheet.create({
   button: {
     padding: 10,
   },
+  titleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingBottom: 120,
+  },
   title: {
     fontSize: 34,
     color: "#FFF",
     textAlign: "center",
-    paddingBottom: 120,
+  },
+  login: {
+    fontSize: 20,
+    color: "#FFF",
+    textAlign: "center",
+    textTransform: "uppercase",
   },
   text: {
     fontSize: 20,
