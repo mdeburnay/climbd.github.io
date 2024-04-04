@@ -12,6 +12,7 @@ import {
   ScrollView,
   View,
 } from "react-native";
+import WebView from "react-native-webview";
 
 // Components
 import { Input } from "./components/Input";
@@ -21,8 +22,10 @@ import { useEffect, useState } from "react";
 
 // Constants
 import { CURRENT_DATE, CURRENT_TIME } from "./constants";
+import InAppBrowser from "react-native-inappbrowser-reborn";
 
 export default function App() {
+  // State
   const [distance, setDistance] = useState<string>("");
   const [incline, setIncline] = useState<string>("");
   const [elevation, setElevation] = useState<string>("");
@@ -30,10 +33,14 @@ export default function App() {
   const [date, setDate] = useState<string>(CURRENT_DATE);
   const [time, setTime] = useState<string>(CURRENT_TIME);
   const [title, setTitle] = useState<string>("");
+  const [showWebView, setShowWebView] = useState(false);
 
+  // Environment Variables
   const ACCESS_TOKEN = process.env.EXPO_PUBLIC_ACCESS_TOKEN;
   const CLIENT_SECRET = process.env.EXPO_PUBLIC_CLIENT_SECRET;
   const REFRESH_TOKEN = process.env.EXPO_PUBLIC_REFRESH_TOKEN;
+  const CLIENT_ID = process.env.EXPO_PUBLIC_CLIENT_ID;
+  const REDIRECT_URL = process.env.EXPO_PUBLIC_REDIRECT_URL;
 
   // Calculate metres climbed when distance or incline changes
   useEffect(() => {
@@ -42,6 +49,29 @@ export default function App() {
       setElevation(elevationGain.toString());
     }
   }, [distance, incline]);
+
+  const login = async () => {
+    console.log("Login");
+    setShowWebView(true);
+  };
+
+  useEffect(() => {
+    const openInAppBrowser = async () => {
+      if (showWebView) {
+        try {
+          const result = await InAppBrowser.open(
+            `https://www.strava.com/oauth/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URL}&approval_prompt=force&scope=read,activity:read_all`
+          );
+          setShowWebView(false);
+        } catch (error) {
+          console.log(error);
+          setShowWebView(false);
+        }
+      }
+    };
+
+    openInAppBrowser();
+  }, [showWebView]);
 
   const reset = () => {
     setDistance("");
@@ -62,63 +92,67 @@ export default function App() {
 
   return (
     <SafeAreaView style={{ backgroundColor: "#000", flex: 1 }}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
-        >
-          <View style={styles.titleContainer}>
-            <View style={{ flex: 1 }} />
-            <Text style={[styles.title, { flex: 1 }]}>Climbd</Text>
-            <Text style={[styles.login, { flex: 1 }]}>Login</Text>
-          </View>
-
-          <ScrollView
-            contentContainerStyle={styles.container}
-            scrollEnabled={false}
+      <View style={showWebView ? styles.webViewContainer : styles.container}>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <KeyboardAvoidingView
+            keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
           >
-            <View style={styles.inputContainer}>
-              <Input
-                placeholder="Title (e.g. My Morning Run)"
-                value={title}
-                onChange={setTitle}
-              />
-              <Input
-                placeholder="Distance (km)"
-                value={distance}
-                onChange={setDistance}
-              />
-              <Input
-                placeholder="Duration (hh:mm:ss)"
-                value={duration}
-                onChange={setDuration}
-              />
-              <Input
-                placeholder="Date (dd/mm/yyyy)"
-                value={date}
-                onChange={setDate}
-              />
-              <Input
-                placeholder="Time (hh:mm)"
-                value={time}
-                onChange={setTime}
-              />
-              <Input
-                placeholder="Incline (%)"
-                value={incline}
-                onChange={setIncline}
-              />
-              <Input
-                placeholder="Elevation (m)"
-                value={elevation}
-                onChange={setElevation}
-              />
+            <View style={styles.titleContainer}>
+              <View style={{ flex: 1 }} />
+              <Text style={[styles.title, { flex: 1 }]}>Climbd</Text>
+              <Text onPress={() => login()} style={[styles.login, { flex: 1 }]}>
+                Login
+              </Text>
             </View>
-            <Button title="Upload" onPress={() => console.log("Upload")} />
-            <Button title="Reset" onPress={() => reset()} />
-            <StatusBar style="light" />
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
+
+            <ScrollView
+              contentContainerStyle={styles.container}
+              scrollEnabled={false}
+            >
+              <View style={styles.inputContainer}>
+                <Input
+                  placeholder="Title (e.g. My Morning Run)"
+                  value={title}
+                  onChange={setTitle}
+                />
+                <Input
+                  placeholder="Distance (km)"
+                  value={distance}
+                  onChange={setDistance}
+                />
+                <Input
+                  placeholder="Duration (hh:mm:ss)"
+                  value={duration}
+                  onChange={setDuration}
+                />
+                <Input
+                  placeholder="Date (dd/mm/yyyy)"
+                  value={date}
+                  onChange={setDate}
+                />
+                <Input
+                  placeholder="Time (hh:mm)"
+                  value={time}
+                  onChange={setTime}
+                />
+                <Input
+                  placeholder="Incline (%)"
+                  value={incline}
+                  onChange={setIncline}
+                />
+                <Input
+                  placeholder="Elevation (m)"
+                  value={elevation}
+                  onChange={setElevation}
+                />
+              </View>
+              <Button title="Upload" onPress={() => console.log("Upload")} />
+              <Button title="Reset" onPress={() => reset()} />
+              <StatusBar style="light" />
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </View>
     </SafeAreaView>
   );
 }
@@ -152,6 +186,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     color: "#FFF",
+  },
+  webViewContainer: {
+    flex: 1,
+    backgroundColor: "#000",
   },
 });
 
