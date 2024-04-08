@@ -11,18 +11,20 @@ import {
   Platform,
   ScrollView,
   View,
+  NativeEventEmitter,
+  NativeModules,
 } from "react-native";
-import WebView from "react-native-webview";
 
 // Components
 import { Input } from "./components/Input";
+import * as WebBrowser from "expo-web-browser";
+import * as Linking from "expo-linking";
 
 // Hooks
 import { useEffect, useState } from "react";
 
 // Constants
 import { CURRENT_DATE, CURRENT_TIME } from "./constants";
-import InAppBrowser from "react-native-inappbrowser-reborn";
 
 export default function App() {
   // State
@@ -33,7 +35,6 @@ export default function App() {
   const [date, setDate] = useState<string>(CURRENT_DATE);
   const [time, setTime] = useState<string>(CURRENT_TIME);
   const [title, setTitle] = useState<string>("");
-  const [showWebView, setShowWebView] = useState(false);
 
   // Environment Variables
   const ACCESS_TOKEN = process.env.EXPO_PUBLIC_ACCESS_TOKEN;
@@ -49,29 +50,6 @@ export default function App() {
       setElevation(elevationGain.toString());
     }
   }, [distance, incline]);
-
-  const login = async () => {
-    console.log("Login");
-    setShowWebView(true);
-  };
-
-  useEffect(() => {
-    const openInAppBrowser = async () => {
-      if (showWebView) {
-        try {
-          const result = await InAppBrowser.open(
-            `https://www.strava.com/oauth/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URL}&approval_prompt=force&scope=read,activity:read_all`
-          );
-          setShowWebView(false);
-        } catch (error) {
-          console.log(error);
-          setShowWebView(false);
-        }
-      }
-    };
-
-    openInAppBrowser();
-  }, [showWebView]);
 
   const reset = () => {
     setDistance("");
@@ -90,9 +68,41 @@ export default function App() {
     // Upload activity
   };
 
+  useEffect(() => {
+    const handleRedirect = async (event) => {
+      if (event.url.includes("?code=")) {
+        const { code } = Linking.parse(event.url).queryParams;
+        console.log(code);
+        // Handle the authorization code and exchange it for an access token
+        // Redirect back to your app
+        await WebBrowser.dismissBrowser();
+      }
+    };
+
+    Linking.addEventListener("url", handleRedirect);
+  }, []);
+
+  const login = async () => {
+    try {
+      const result = await WebBrowser.openAuthSessionAsync(
+        `https://www.strava.com/oauth/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URL}&approval_prompt=force&scope=read,activity:read_all`
+      );
+
+      console.log(result);
+
+      if (result.type === "success") {
+        const { code } = Linking.parse(result.url).queryParams;
+        console.log(code);
+        WebBrowser.dismissBrowser();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <SafeAreaView style={{ backgroundColor: "#000", flex: 1 }}>
-      <View style={showWebView ? styles.webViewContainer : styles.container}>
+      <View style={styles.container}>
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <KeyboardAvoidingView
             keyboardVerticalOffset={Platform.OS === "android" ? -500 : 0}
@@ -100,7 +110,7 @@ export default function App() {
             <View style={styles.titleContainer}>
               <View style={{ flex: 1 }} />
               <Text style={[styles.title, { flex: 1 }]}>Climbd</Text>
-              <Text onPress={() => login()} style={[styles.login, { flex: 1 }]}>
+              <Text onPress={login} style={[styles.login, { flex: 1 }]}>
                 Login
               </Text>
             </View>
@@ -186,10 +196,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     color: "#FFF",
-  },
-  webViewContainer: {
-    flex: 1,
-    backgroundColor: "#000",
   },
 });
 
