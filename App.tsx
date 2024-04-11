@@ -26,6 +26,9 @@ import { useEffect, useState } from "react";
 // Constants
 import { CURRENT_DATE, CURRENT_TIME } from "./constants";
 
+// Supabase
+import { supabase } from "./utils/supabase";
+
 export default function App() {
   // State
   const [distance, setDistance] = useState<string>("");
@@ -69,17 +72,21 @@ export default function App() {
   };
 
   useEffect(() => {
-    const handleRedirect = async (event) => {
-      if (event.url.includes("?code=")) {
-        const { code } = Linking.parse(event.url).queryParams;
-        console.log(code);
-        // Handle the authorization code and exchange it for an access token
-        // Redirect back to your app
-        await WebBrowser.dismissBrowser();
+    // This function will be called when a redirect URL is opened
+    const handleRedirect = (event) => {
+      let data = Linking.parse(event.url);
+      if (data.queryParams && data.queryParams.code) {
+        const code = data.queryParams.code;
+        console.log("Authorization code:", code);
+        // Implement the exchange of the code for an access token here
       }
     };
 
-    Linking.addEventListener("url", handleRedirect);
+    // Subscribe to incoming links
+    const subscription = Linking.addEventListener("url", handleRedirect);
+
+    // Return a cleanup function to unsubscribe
+    return () => subscription.remove();
   }, []);
 
   const login = async () => {
