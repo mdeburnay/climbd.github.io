@@ -11,14 +11,11 @@ import {
   Platform,
   ScrollView,
   View,
-  NativeEventEmitter,
-  NativeModules,
 } from "react-native";
 
 // Components
 import { Input } from "./components/Input";
-import * as WebBrowser from "expo-web-browser";
-import * as Linking from "expo-linking";
+import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
 
 // Hooks
 import { useEffect, useState } from "react";
@@ -46,6 +43,13 @@ export default function App() {
   const CLIENT_ID = process.env.EXPO_PUBLIC_CLIENT_ID;
   const REDIRECT_URL = process.env.EXPO_PUBLIC_REDIRECT_URL;
 
+  // Endpoint
+  const discovery = {
+    authorizationEndpoint: "https://www.strava.com/oauth/mobile/authorize",
+    tokenEndpoint: "https://www.strava.com/oauth/token",
+    revocationEndpoint: "https://www.strava.com/oauth/deauthorize",
+  };
+
   // Calculate metres climbed when distance or incline changes
   useEffect(() => {
     if (distance && incline) {
@@ -71,41 +75,20 @@ export default function App() {
     // Upload activity
   };
 
+  const [request, response, promptAsync] = useAuthRequest(
+    {
+      clientId: CLIENT_ID,
+      scopes: ["activity:read_all"],
+      redirectUri: REDIRECT_URL,
+    },
+    discovery
+  );
+
   useEffect(() => {
-    // This function will be called when a redirect URL is opened
-    const handleRedirect = (event) => {
-      let data = Linking.parse(event.url);
-      if (data.queryParams && data.queryParams.code) {
-        const code = data.queryParams.code;
-        console.log("Authorization code:", code);
-        // Implement the exchange of the code for an access token here
-      }
-    };
-
-    // Subscribe to incoming links
-    const subscription = Linking.addEventListener("url", handleRedirect);
-
-    // Return a cleanup function to unsubscribe
-    return () => subscription.remove();
-  }, []);
-
-  const login = async () => {
-    try {
-      const result = await WebBrowser.openAuthSessionAsync(
-        `https://www.strava.com/oauth/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URL}&approval_prompt=force&scope=read,activity:read_all`
-      );
-
-      console.log(result);
-
-      if (result.type === "success") {
-        const { code } = Linking.parse(result.url).queryParams;
-        console.log(code);
-        WebBrowser.dismissBrowser();
-      }
-    } catch (e) {
-      console.log(e);
+    if (response?.type === "success") {
+      const { code } = response.params;
     }
-  };
+  }, [response]);
 
   return (
     <SafeAreaView style={{ backgroundColor: "#000", flex: 1 }}>
@@ -117,7 +100,10 @@ export default function App() {
             <View style={styles.titleContainer}>
               <View style={{ flex: 1 }} />
               <Text style={[styles.title, { flex: 1 }]}>Climbd</Text>
-              <Text onPress={login} style={[styles.login, { flex: 1 }]}>
+              <Text
+                onPress={() => promptAsync()}
+                style={[styles.login, { flex: 1 }]}
+              >
                 Login
               </Text>
             </View>
