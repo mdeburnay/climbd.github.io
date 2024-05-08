@@ -22,7 +22,7 @@
           "autoVerify": true,
           "data": [
             {
-              "scheme": "climbd"
+              "scheme": "com.climbd"
             }
           ],
           "category": ["BROWSABLE", "DEFAULT"]

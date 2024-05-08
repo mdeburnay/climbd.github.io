@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.21.0",
-    "@supabase/supabase-js": "^2.42.1",
+    "@supabase/supabase-js": "^2.43.1",
     "@types/react": "~18.2.45",
     "date-fns": "^3.5.0",
     "expo": "~50.0.8",
